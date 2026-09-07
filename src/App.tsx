@@ -1,6 +1,6 @@
 /**
  * DataForge BDH Lab: Main App Component
- * IIT KGP DataForge 2026 Hackathon (Pathway Track) & NeurIPS 2026 Education Track
+ * DataForge 2026 Hackathon (Pathway Track) & NeurIPS 2026 Education Track
  */
 
 import React, { useState } from 'react';
@@ -65,7 +65,7 @@ export default function App() {
             <div className="flex items-center gap-2 text-cyan-400 font-medium">
               <Award className="w-4 h-4 shrink-0" />
               <span>
-                <strong>Judges Perspective (IIT KGP & Pathway):</strong> Validating real computational matrix substrate, zero-token latent recurrence, and BDH 5% sparse activation mechanics.
+                <strong>Judges Perspective (Pathway):</strong> Validating real computational matrix substrate, zero-token latent recurrence, and BDH 5% sparse activation mechanics.
               </span>
             </div>
           )}
@@ -148,7 +148,7 @@ export default function App() {
             <span>Pathway Dragon Hatchling (BDH / BDH-CQ) Explainer</span>
           </div>
           <div className="text-slate-400 font-mono text-[11px]">
-            IIT KGP DataForge 2026 Hackathon • Pathway Track • NeurIPS 2026 Education Track
+            DataForge 2026 Hackathon • Pathway Track • NeurIPS 2026 Education Track
           </div>
         </div>
       </footer>

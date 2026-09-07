@@ -2,7 +2,7 @@
 
 > **An interactive computational laboratory explaining Pathway's Dragon Hatchling (BDH & BDH-CQ) architectures, Hebbian fast weight matrices, 5% monosemantic sparse activations, zero-token latent reasoning, and 2-bit codebook quantization.**
 
-![IIT KGP DataForge 2026](https://img.shields.io/badge/IIT_KGP_DataForge_2026-Pathway_Track-emerald?style=for-the-badge&logo=google-cloud)
+![National DataForge 2026](https://img.shields.io/badge/National_DataForge_2026-Pathway_Track-emerald?style=for-the-badge&logo=google-cloud)
 ![NeurIPS 2026 Education](https://img.shields.io/badge/NeurIPS_2026-Education_Track-purple?style=for-the-badge)
 ![React 19](https://img.shields.io/badge/React_19-Vite_6-cyan?style=for-the-badge&logo=react)
 ![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss)
@@ -58,12 +58,77 @@ Standard Large Language Models (Transformers) rely on **Key-Value (KV) caches** 
 
 ### 7. 🎭 Audience Role Adaptability (`ClaimBanner.tsx`)
 - Real-time perspective switching tailored for:
-  - **Judges (IIT KGP & Pathway)**: Focus on mathematical matrix validity, zero-token recurrence, and 5% Top-K sparsity.
+  - **Judges (Pathway Track)**: Focus on mathematical matrix validity, zero-token recurrence, and 5% Top-K sparsity.
   - **Learners (Data Scientists)**: Focus on intuitive matrix updates and memory scaling comparisons.
   - **Educators (NeurIPS Track)**: Focus on self-contained open-source classroom visualization.
 
 ### 8. 🎨 Cybernetic App Loader (`AppLoader.tsx`)
 - Sleek 2.8-second animated matrix initialization splash screen featuring rotating orbital rings, synaptic node pulse indicators, and real-time status stage updates. Replayable on-demand via the header.
+
+---
+
+## ⚙️ Architecture & Core Workflow
+
+The following flowchart details the robust data pipeline and computational logic mapping the end-to-end user experience, from the frontend interactions to the backend simulation engine.
+
+```mermaid
+graph TD
+    classDef frontend fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#e2e8f0
+    classDef backend fill:#1e1b4b,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
+    classDef core fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+
+    subgraph Frontend ["Frontend: DataForge BDH Lab (React 19 / UI)"]
+        UI["User Interface & Controls"]:::frontend
+        Tour["Guided Tutorial"]:::frontend
+        FW["Fast Weights Sandbox"]:::frontend
+        LE["Latent Engine Sandbox"]:::frontend
+        PB["Pareto Benchmark Analyzer"]:::frontend
+    end
+
+    subgraph Backend ["Backend: Node.js / Express Server"]
+        API["Express API Gateway"]:::backend
+        Gemini["Gemini 2.5 Flash SDK - Mechanistic Interpretability"]:::backend
+        Compute["V8 Server-Side Compute - Scalability Benchmarks"]:::backend
+    end
+
+    subgraph Core ["Core: BDH Computational Substrate"]
+        Input["Token / Spatial Grid Input"]:::core
+        Projection["Linear Projection to d-dim"]:::core
+        Hebbian["Outer Product Hebbian Update O-1 Memory Matrix"]:::core
+        Sparsity["5% Top-K Sparse Masking Monosemanticity"]:::core
+        Recurrence["Zero-Token Recurrent Latent Inference"]:::core
+        Output["Final Projection & Validation"]:::core
+    end
+
+    %% Frontend to Backend Connections
+    UI --> Tour
+    UI --> FW
+    UI --> LE
+    UI --> PB
+    
+    LE -.->|"Streams Activation Array"| API
+    PB -.->|"Streams Benchmark Config"| API
+    
+    API --> Gemini
+    API --> Compute
+    
+    Gemini -.->|"Semantic Interpretation"| LE
+    Compute -.->|"Memory & Latency Data"| PB
+
+    %% Internal BDH Engine Simulation Logic
+    FW --> Input
+    LE --> Input
+    Input --> Projection
+    Projection --> Hebbian
+    Hebbian --> Sparsity
+    Sparsity --> Recurrence
+    Recurrence --> Output
+    Output --> FW
+    Output --> LE
+    
+    %% Recursive Step
+    Recurrence -.->|"k iterations"| Recurrence
+```
 
 ---
 
@@ -217,7 +282,7 @@ dataforge-bdh-lab/
 
 ## 🏅 Hackathon & Track Acknowledgment
 
-Built for the **IIT Kharagpur DataForge 2026 Hackathon (Pathway Track)** and submitted to the **NeurIPS 2026 Education Track**.
+Built for the **National DataForge 2026 Hackathon (Pathway Track)** and submitted to the **NeurIPS 2026 Education Track**.
 
 Special thanks to **Pathway AI** for pioneering Dragon Hatchling (BDH) and high-performance real-time vector processing architectures.
 

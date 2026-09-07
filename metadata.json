@@ -2,5 +2,7 @@
   "name": "DataForge BDH Lab: Frontier AI Explainer",
   "description": "An interactive computational tool explaining Pathway's Dragon Hatchling (BDH & BDH-CQ) architectures, Hebbian fast weights, sparse non-negative activations, and recurrent latent reasoning.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

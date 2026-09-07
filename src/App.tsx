@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { AnimatePresence } from 'motion/react';
 import { AppMode, AudienceRole } from './types';
 import { Header } from './components/Header';
 import { ClaimBanner } from './components/ClaimBanner';
@@ -13,9 +14,11 @@ import { LatentEngineSandbox } from './components/LatentEngineSandbox';
 import { BdhArchitectureDeepDive } from './components/BdhArchitectureDeepDive';
 import { ParetoBenchmarkAnalyzer } from './components/ParetoBenchmarkAnalyzer';
 import { TermExplorer, FloatingTermExplorerLauncher } from './components/TermExplorer';
+import { AppLoader } from './components/AppLoader';
 import { Award, BookOpen, Sparkles, Zap } from 'lucide-react';
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [currentMode, setCurrentMode] = useState<AppMode>('guided');
   const [audienceRole, setAudienceRole] = useState<AudienceRole>('judge');
   const [isExplorerOpen, setIsExplorerOpen] = useState(false);
@@ -37,8 +40,19 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950">
       
+      {/* Super Attractive 3-Second App Loading Overlay */}
+      <AnimatePresence>
+        {isLoading && (
+          <AppLoader onComplete={() => setIsLoading(false)} durationMs={2800} />
+        )}
+      </AnimatePresence>
+
       {/* App Header */}
-      <Header currentMode={currentMode} onModeChange={setCurrentMode} />
+      <Header
+        currentMode={currentMode}
+        onModeChange={setCurrentMode}
+        onReplayLoader={() => setIsLoading(true)}
+      />
 
       {/* Claim Banner & Audience Role Selector */}
       <ClaimBanner audienceRole={audienceRole} onAudienceChange={setAudienceRole} />

@@ -77,27 +77,27 @@ graph TD
     classDef backend fill:#1e1b4b,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
     classDef core fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#e2e8f0
 
-    subgraph "Frontend: DataForge BDH Lab (React 19 / UI)"
-        UI[User Interface & Controls]:::frontend
-        Tour[Guided Tutorial]:::frontend
-        FW[Fast Weights Sandbox]:::frontend
-        LE[Latent Engine Sandbox]:::frontend
-        PB[Pareto Benchmark Analyzer]:::frontend
+    subgraph Frontend ["Frontend: DataForge BDH Lab (React 19 / UI)"]
+        UI["User Interface & Controls"]:::frontend
+        Tour["Guided Tutorial"]:::frontend
+        FW["Fast Weights Sandbox"]:::frontend
+        LE["Latent Engine Sandbox"]:::frontend
+        PB["Pareto Benchmark Analyzer"]:::frontend
     end
 
-    subgraph "Backend: Node.js / Express Server"
-        API[Express API Gateway]:::backend
-        Gemini[Gemini 2.5 Flash SDK\nMechanistic Interpretability]:::backend
-        Compute[V8 Server-Side Compute\nScalability Benchmarks]:::backend
+    subgraph Backend ["Backend: Node.js / Express Server"]
+        API["Express API Gateway"]:::backend
+        Gemini["Gemini 2.5 Flash SDK - Mechanistic Interpretability"]:::backend
+        Compute["V8 Server-Side Compute - Scalability Benchmarks"]:::backend
     end
 
-    subgraph "Core: BDH Computational Substrate"
-        Input[Token / Spatial Grid Input]:::core
-        Projection[Linear Projection to d-dim]:::core
-        Hebbian[Outer Product Hebbian Update\nO-1 Memory Matrix]:::core
-        Sparsity[5% Top-K Sparse Masking\nMonosemanticity]:::core
-        Recurrence[Zero-Token Recurrent\nLatent Inference]:::core
-        Output[Final Projection & Validation]:::core
+    subgraph Core ["Core: BDH Computational Substrate"]
+        Input["Token / Spatial Grid Input"]:::core
+        Projection["Linear Projection to d-dim"]:::core
+        Hebbian["Outer Product Hebbian Update O-1 Memory Matrix"]:::core
+        Sparsity["5% Top-K Sparse Masking Monosemanticity"]:::core
+        Recurrence["Zero-Token Recurrent Latent Inference"]:::core
+        Output["Final Projection & Validation"]:::core
     end
 
     %% Frontend to Backend Connections
@@ -106,14 +106,14 @@ graph TD
     UI --> LE
     UI --> PB
     
-    LE -.->|Streams Activation Array| API
-    PB -.->|Streams Benchmark Config| API
+    LE -.->|"Streams Activation Array"| API
+    PB -.->|"Streams Benchmark Config"| API
     
     API --> Gemini
     API --> Compute
     
-    Gemini -.->|Semantic Interpretation| LE
-    Compute -.->|Memory & Latency Data| PB
+    Gemini -.->|"Semantic Interpretation"| LE
+    Compute -.->|"Memory & Latency Data"| PB
 
     %% Internal BDH Engine Simulation Logic
     FW --> Input
@@ -127,7 +127,7 @@ graph TD
     Output --> LE
     
     %% Recursive Step
-    Recurrence -.->|k iterations| Recurrence
+    Recurrence -.->|"k iterations"| Recurrence
 ```
 
 ---

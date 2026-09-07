@@ -105,8 +105,8 @@ Standard Large Language Models (Transformers) rely on **Key-Value (KV) caches** 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/DebadyutiBarui2007-Debug/dataforge-bdh-lab.git
-cd dataforge-bdh-lab
+git clone https://github.com/DebadyutiBarui2007-Debug/Data_Forge_Data_Lab.git
+cd Data_Forge_Data_Lab
 
 # 2. Install dependencies
 npm install

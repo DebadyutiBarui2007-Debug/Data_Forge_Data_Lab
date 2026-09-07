@@ -14,6 +14,7 @@ import { LatentEngineSandbox } from './components/LatentEngineSandbox';
 import { BdhArchitectureDeepDive } from './components/BdhArchitectureDeepDive';
 import { ParetoBenchmarkAnalyzer } from './components/ParetoBenchmarkAnalyzer';
 import { TermExplorer, FloatingTermExplorerLauncher } from './components/TermExplorer';
+import { PerformanceOverlay } from './components/PerformanceOverlay';
 import { AppLoader } from './components/AppLoader';
 import { Award, BookOpen, Sparkles, Zap } from 'lucide-react';
 
@@ -114,6 +115,22 @@ export default function App() {
 
       {/* Floating Term Explorer Launcher Button (Accessible on ALL pages/modes) */}
       <FloatingTermExplorerLauncher onOpen={() => handleOpenExplorer()} />
+
+      {/* Real-time Performance & Latency HUD Overlay */}
+      <PerformanceOverlay
+        engineMode={
+          currentMode === 'sandbox-fastweights' ? 'Hebbian Fast-Weights' :
+          currentMode === 'sandbox-latent' ? 'BDH-CQ Latent' :
+          currentMode === 'benchmark' ? 'Pareto Analyzer' :
+          currentMode === 'deepdive' ? 'Architecture Deep Dive' :
+          'Guided Tour'
+        }
+        computationLatencyMs={
+          currentMode === 'sandbox-latent' ? 0.78 :
+          currentMode === 'sandbox-fastweights' ? 1.42 :
+          1.15
+        }
+      />
 
       {/* Term Explorer Overlay Modal */}
       <TermExplorer

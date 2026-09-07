@@ -5,7 +5,8 @@
 
 import React, { useState } from 'react';
 import { BenchmarkComparisonPoint } from '../types';
-import { Activity, BarChart3, Cpu, Database, HardDrive, ShieldCheck, Zap } from 'lucide-react';
+import { Activity, BarChart3, Cpu, Database, HardDrive, ShieldCheck, Zap, Cloud } from 'lucide-react';
+import { BackendClient, BenchmarkResponse } from '../api/backendClient';
 
 export const ParetoBenchmarkAnalyzer: React.FC = () => {
   const [seqLengthN, setSeqLengthN] = useState<number>(2048);
@@ -54,6 +55,26 @@ export const ParetoBenchmarkAnalyzer: React.FC = () => {
 
   const currentPoint = points.find(p => p.sequenceLength >= seqLengthN) || points[3];
 
+  const [backendResult, setBackendResult] = useState<BenchmarkResponse | null>(null);
+  const [isBackendLoading, setIsBackendLoading] = useState(false);
+  const [backendError, setBackendError] = useState<string | null>(null);
+
+  const handleRunBackendCompute = async () => {
+    setIsBackendLoading(true);
+    setBackendError(null);
+    try {
+      const result = await BackendClient.runComputeBenchmark({
+        sequenceLength: seqLengthN,
+        dimension: 1024
+      });
+      setBackendResult(result);
+    } catch (err: any) {
+      setBackendError(err.message || 'Failed to connect to backend server.');
+    } finally {
+      setIsBackendLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
       
@@ -76,21 +97,79 @@ export const ParetoBenchmarkAnalyzer: React.FC = () => {
         </div>
 
         {/* N Slider */}
-        <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-          <div className="flex justify-between text-xs font-semibold text-slate-300">
-            <span>Sequence Context Length N: <strong className="text-emerald-400 font-mono text-sm">{seqLengthN} Tokens</strong></span>
-            <span className="text-slate-400 font-mono">Max N = 10,000 Tokens</span>
+        <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="flex-1 space-y-2">
+            <div className="flex justify-between text-xs font-semibold text-slate-300">
+              <span>Sequence Context Length N: <strong className="text-emerald-400 font-mono text-sm">{seqLengthN} Tokens</strong></span>
+              <span className="text-slate-400 font-mono">Max N = 10,000 Tokens</span>
+            </div>
+            <input
+              type="range"
+              min="128"
+              max="10000"
+              step="128"
+              value={seqLengthN}
+              onChange={e => setSeqLengthN(Number(e.target.value))}
+              className="w-full accent-emerald-400 cursor-pointer"
+            />
           </div>
-          <input
-            type="range"
-            min="128"
-            max="10000"
-            step="128"
-            value={seqLengthN}
-            onChange={e => setSeqLengthN(Number(e.target.value))}
-            className="w-full accent-emerald-400 cursor-pointer"
-          />
+          
+          <div className="md:w-64">
+            <button
+              onClick={handleRunBackendCompute}
+              disabled={isBackendLoading}
+              className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-lg text-xs font-bold transition-all disabled:opacity-50"
+            >
+              {isBackendLoading ? (
+                <span className="flex items-center gap-2">
+                  <span className="w-3.5 h-3.5 border-2 border-indigo-400/20 border-t-indigo-400 rounded-full animate-spin" />
+                  Running on Server...
+                </span>
+              ) : (
+                <>
+                  <Cloud className="w-3.5 h-3.5" />
+                  Server Compute Benchmark
+                </>
+              )}
+            </button>
+          </div>
         </div>
+
+        {/* Backend Benchmark Results */}
+        {backendError && (
+          <div className="mt-2 p-2 bg-rose-500/10 border border-rose-500/30 rounded text-rose-400 text-[10px]">
+            {backendError}
+          </div>
+        )}
+        {backendResult && !isBackendLoading && (
+          <div className="mt-4 p-4 bg-slate-950 border border-indigo-500/30 rounded-lg space-y-3">
+            <h4 className="text-[10px] uppercase font-bold text-indigo-400 tracking-wider flex items-center gap-1.5">
+              <Cloud className="w-4 h-4" />
+              Node.js Server Benchmark Results
+            </h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-xs">
+              <div>
+                <div className="text-slate-500 text-[10px]">Sequence</div>
+                <div className="text-slate-200 font-bold">{backendResult.sequenceLength} Tokens</div>
+              </div>
+              <div>
+                <div className="text-slate-500 text-[10px]">KV Cache RAM</div>
+                <div className="text-rose-400 font-bold">{backendResult.kvCacheMemoryMB} MB</div>
+              </div>
+              <div>
+                <div className="text-slate-500 text-[10px]">BDH Matrix RAM</div>
+                <div className="text-emerald-400 font-bold">{backendResult.bdhMemoryMB} MB</div>
+              </div>
+              <div>
+                <div className="text-slate-500 text-[10px]">Server Engine Latency</div>
+                <div className="text-cyan-400 font-bold">{backendResult.computeLatencyMs} ms</div>
+              </div>
+            </div>
+            <div className="pt-2 border-t border-slate-800/60 text-slate-300 text-[11px]">
+              Offloading BDH fast weight matrices yields a <strong>{backendResult.memorySavedPercent}%</strong> memory saving server-side over traditional KV caches.
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Comparison Cards at Current N */}

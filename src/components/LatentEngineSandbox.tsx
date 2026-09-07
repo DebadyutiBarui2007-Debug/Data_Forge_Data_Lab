@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { LatentReasoningConfig } from '../types';
 import { ARC_PUZZLES, runLatentReasoningSimulation } from '../engine/latentReasoningEngine';
+import { BackendClient } from '../api/backendClient';
 import { GridVisualizer } from './GridVisualizer';
 import { ParetoGraph } from './ParetoGraph';
 import { Activity, Clock, Cpu, Layers, Play, Sparkles, Zap } from 'lucide-react';
@@ -32,6 +33,31 @@ export const LatentEngineSandbox: React.FC = () => {
     reasoningMode: 'cot-transformer'
   });
   const currentCotRes = cotResults[currentStepIndex] || cotResults[0];
+
+  const [aiInterpretation, setAiInterpretation] = useState<string | null>(null);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
+  const handleAiInterpretation = async () => {
+    setIsAiLoading(true);
+    setAiError(null);
+    try {
+      // Create a mock activation vector based on the grid structure to send to the backend
+      // In a real scenario, this would be the raw Float32Array from the BDH engine
+      const mockLatent = currentRes.currentGridPrediction.flat().map(val => val > 0 ? Math.random() * val : 0);
+      
+      const interpretation = await BackendClient.interpretLatentState({
+        latentVector: mockLatent,
+        sparsityThreshold: '5%',
+        contextPhase: `Latent Recurrence Step k=${config.recurrentSteps}`
+      });
+      setAiInterpretation(interpretation);
+    } catch (err: any) {
+      setAiError(err.message || 'Failed to connect to backend AI.');
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
@@ -179,6 +205,44 @@ export const LatentEngineSandbox: React.FC = () => {
 
             <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 text-[11px] text-slate-300 leading-tight">
               <strong>BDH-CQ Advantage:</strong> BDH-CQ reaches {currentRes.cellAccuracy}% accuracy in <strong>{currentRes.cumLatencyMs} ms</strong> with <strong>0 text tokens generated</strong>, compared to CoT generating {currentCotRes.tokensGenerated} tokens taking {currentCotRes.cumLatencyMs} ms!
+            </div>
+
+            {/* Cloud AI Integration Button */}
+            <div className="pt-2 border-t border-slate-800/60 mt-4">
+              <button
+                onClick={handleAiInterpretation}
+                disabled={isAiLoading}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-lg text-xs font-bold transition-all disabled:opacity-50"
+              >
+                {isAiLoading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-emerald-400/20 border-t-emerald-400 rounded-full animate-spin" />
+                    Querying Server Backend AI...
+                  </span>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    Backend AI: Interpret Latent Vector
+                  </>
+                )}
+              </button>
+
+              {aiError && (
+                <div className="mt-2 p-2 bg-rose-500/10 border border-rose-500/30 rounded text-rose-400 text-[10px]">
+                  {aiError}
+                </div>
+              )}
+              {aiInterpretation && !isAiLoading && (
+                <div className="mt-3 p-3 bg-slate-950 border border-emerald-500/30 rounded-lg space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-emerald-500 tracking-wider flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" />
+                    Gemini Mechanistic Interpretation
+                  </span>
+                  <p className="text-xs text-slate-300 font-mono leading-relaxed">
+                    {aiInterpretation}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

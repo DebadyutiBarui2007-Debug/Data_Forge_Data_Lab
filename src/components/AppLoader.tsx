@@ -124,7 +124,7 @@ export const AppLoader: React.FC<AppLoaderProps> = ({ onComplete, durationMs = 2
         <div className="space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono tracking-wider uppercase">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Pathway Track • IIT KGP DataForge 2026</span>
+            <span>Pathway Track • DataForge 2026</span>
           </div>
 
           <h1 className="text-2xl font-extrabold text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 via-cyan-200 to-indigo-300">

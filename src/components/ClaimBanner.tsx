@@ -31,7 +31,7 @@ export const ClaimBanner: React.FC<ClaimBannerProps> = ({
                 Falsifiable 1-Sentence Claim
               </span>
               <span className="text-[11px] text-slate-400 font-mono hidden sm:inline">
-                IIT KGP DataForge 2026 • Pathway Track
+                DataForge 2026 • Pathway Track
               </span>
             </div>
             <p className="text-xs md:text-sm font-medium text-slate-200 leading-relaxed italic">
